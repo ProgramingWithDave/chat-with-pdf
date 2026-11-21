@@ -38,8 +38,8 @@ function Chat({ id }: { id: string }) {
     user &&
       query(
         collection(db, "users", user?.id, "files", id, "chat"),
-        orderBy("createdAt", "asc")
-      )
+        orderBy("createdAt", "asc"),
+      ),
   );
 
   useEffect(() => {
@@ -112,7 +112,7 @@ function Chat({ id }: { id: string }) {
               message: `Whoops... ${message}`,
               createdAt: new Date(),
             },
-          ])
+          ]),
         );
       }
     });

@@ -2,12 +2,11 @@
 
 import { Message } from "@/components/Chat";
 import { adminDb } from "@/firebase/firebaseAdmin";
+import { FREE_LIMIT, PRO_LIMIT } from "@/lib/hooks/useSubscription";
 import { generateLangChainCompletion } from "@/lib/langchain";
 import { auth } from "@clerk/nextjs/server";
 
-// number of docs the user is allowed to have
-const PRO_LIMIT = 20
-const FREE_LIMIT = 2;
+
 
 export async function askQuestion(id: string, question: string) {
   auth().protect();
@@ -30,7 +29,6 @@ export async function askQuestion(id: string, question: string) {
   const userRef = await adminDb.collection("users").doc(userId!).get()
 
   
-  // tomorrow limit the pro/free users
   
 
   // check if user is on free plan and has asked more than the free number of questions

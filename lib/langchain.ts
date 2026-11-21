@@ -114,7 +114,7 @@ export async function generateEmbeddingsInPineconeVectorStore(docId: string) {
 
   let pineconeVectorStore;
 
-  // Generate embeddings (numerical representations) fro the split documents
+  // Generate embeddings (numerical representations) from the split documents
   console.log("--- Generate embedding.. ---");
   const embeddings = new OpenAIEmbeddings();
 

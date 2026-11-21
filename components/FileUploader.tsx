@@ -16,31 +16,34 @@ import { useDropzone } from "react-dropzone";
 
 function FileUploader() {
   const { progress, status, fileId, handleUpload } = useUpload();
-  const { isOverFileLimit, filesLoading } = useSubscription()
+  const { isOverFileLimit, filesLoading } = useSubscription();
   const router = useRouter();
-  const { toast } = useToast()
+  const { toast } = useToast();
 
-
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    // Do something with the files
-    const file = acceptedFiles[0];
-console.log("Debug 1 >", !isOverFileLimit, !filesLoading)
-    if (file) {
-      if (!isOverFileLimit && !filesLoading) {
-       await handleUpload(file)
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      // Do something with the files
+      const file = acceptedFiles[0];
+      console.log("Debug 1 >", !isOverFileLimit, !filesLoading);
+      if (file) {
+        if (!isOverFileLimit && !filesLoading) {
+          await handleUpload(file);
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Free plan file Limit Reached",
+            description:
+              "You have reached the maximum number of files allowed for your account, Plase upgrade to add more documents.",
+          });
+        }
       } else {
-        toast({
-          variant: "destructive",
-          title: "Free plan file Limit Reached",
-          description: "You have reached the maximum number of files allowed for your account, Plase upgrade to add more documents."
-        })
-     }
-    } else {
-      // do nothing
-      // toast...
-      return;
-    }
-  }, [handleUpload, isOverFileLimit, filesLoading, toast]);
+        // TODO: do nothing
+        // toast...
+        return;
+      }
+    },
+    [handleUpload, isOverFileLimit, filesLoading, toast],
+  );
 
   useEffect(() => {
     if (fileId) {
@@ -56,7 +59,9 @@ console.log("Debug 1 >", !isOverFileLimit, !filesLoading)
       <CheckCircleIcon className=" w-20 h-20 text-sky-600" />
     ),
     [StatusText.SAVING]: <SaveIcon className="w-20 h-20 text-sky-600" />,
-    [StatusText.GENERATING]: <HammerIcon className=" w-20 animate-bounce h-20 text-sky-600" />,
+    [StatusText.GENERATING]: (
+      <HammerIcon className=" w-20 animate-bounce h-20 text-sky-600" />
+    ),
   };
 
   const { getRootProps, getInputProps, isDragActive, isFocused, isDragAccept } =
